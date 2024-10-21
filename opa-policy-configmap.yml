@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: default
+data:
+  kubernetes-policy.rego: |
+    package kubernetes.admission
+
+    deny[message] {
+        input.request.kind.kind == "Pod"
+        some container
+        container := input.request.object.spec.containers[_]
+        container.securityContext.privileged == true
+        message := "Privileged containers are not allowed."
+    }

@@ -1,0 +1,9 @@
+package kubernetes.admission
+
+deny[message] {
+    input.request.kind.kind == "Pod"
+    some container
+    container := input.request.object.spec.containers[_]
+    container.securityContext.privileged == true
+    message := "Privileged containers are not allowed."
+}

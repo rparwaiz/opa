@@ -1,0 +1,13 @@
+services:
+  - name: kubernetes
+    url: https://kubernetes.default.svc
+
+bundles:
+  kubernetes:
+    service: kubernetes
+    resource: opa/bundles/policies
+
+decision_logs:
+  console: true
+
+default_decision: /kubernetes/admission
